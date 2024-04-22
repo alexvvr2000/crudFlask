@@ -5,7 +5,7 @@ app: Flask = Flask(__name__)
 
 @app.get("/")
 def index():
-    return render_template("mostrar.html", carrito=[])
+    return render_template("mostrar.jinja", carrito=[])
 
 
 @app.get("/agregar")
