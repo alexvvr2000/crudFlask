@@ -1,23 +1,33 @@
 from flask import Flask
 
-app = Flask(__name__)
+app: Flask = Flask(__name__)
 
 
-@app.route("/")
+@app.get("/")
 def index():
     return "index"
 
 
-@app.route("/agregar", methods=["GET", "POST"])
-def agregarCarro():
+@app.get("/agregar")
+def agregarCarroForm():
     return "agregar"
 
 
-@app.route("/borrar", methods=["GET", "DELETE"])
-def borrarCarro():
+@app.post("/agregar")
+def agregarCarroBase():
+    return "agregar"
+
+
+@app.delete("/borrar")
+def borrarCarroBase():
     return "borrar"
 
 
-@app.route("/actualizar", methods=["GET", "PUT"])
-def actualizarCarro():
+@app.get("/actualizar")
+def actualizarCarroForm():
     return "actualizar"
+
+
+@app.put("/actualizar")
+def actualizarCarroBase():
+    pass
