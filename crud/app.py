@@ -1,11 +1,11 @@
-from flask import Flask
+from flask import Flask, render_template
 
 app: Flask = Flask(__name__)
 
 
 @app.get("/")
 def index():
-    return "index"
+    return render_template("mostrar.html", carrito=[])
 
 
 @app.get("/agregar")
