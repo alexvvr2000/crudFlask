@@ -1,31 +1,38 @@
 {% extends "index.jinja" %}
 
+{% block titulo %} Pagina inicial {% endblock titulo %}
+
+{% block cuerpo %}
+{% if carrito is defined and carrito | length >= 1 %}
 <!-- muestra los elementos en carrito -->
-{% for item in carrito %}
 <table>
-  <caption>
-    Abarrotes "Los lunes"
-  </caption>
-  <tr>
-    <th>ID</th>
-    <th>Nombre</th>
-    <th>Precio</th>
-    <th>Opciones</th>
-  </tr>
-  <tr>
-    <td>{{ item.id }}</td>
-    <td>{{ item.nombre }}</td>
-    <td>{{ '$' ~ item.precio }}</td>
-    <td>
-      <button>Eliminar</button>
-      <button>Actualizar</button>
-    </td>
-  </tr>
+    <caption>
+        Abarrotes "Los lunes"
+    </caption>
+    <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Precio</th>
+        <th>Opciones</th>
+    </tr>
+    {% for item in carrito %}
+    <tr>
+        <td>{{ item.id }}</td>
+        <td>{{ item.nombre }}</td>
+        <td>{{ '$' ~ item.precio }}</td>
+        <td>
+            <button>Eliminar</button>
+            <button>Actualizar</button>
+        </td>
+    </tr>
+    {% endfor %}
 </table>
 <button>Agregar elemento</button>
 {% else %}
 <div>
-  No hay elementos en base,
-  <li>agrega uno</li>
+    No hay elementos en el carrito, <span>
+        <ul>agrega un dato</ul>
+    </span>
 </div>
-{% endfor %}
+{% endif %}
+{% endblock cuerpo %}
