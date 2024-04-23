@@ -31,7 +31,7 @@
 {% else %}
 <div>
     No hay elementos en el carrito, <span>
-        <ul>agrega un dato</ul>
+        <a href="{{ url_for('agregarCarroForm') }}">agrega uno</a>
     </span>
 </div>
 {% endif %}
