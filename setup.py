@@ -12,6 +12,10 @@ classifiers: List[str] = [
     "Programming Language :: Python :: 3",
 ]
 
+requirements: str
+with open("./requirements.txt") as r:
+    requirements = r.read().splitlines()
+
 setup(
     name="crud",
     version="0.0.1",
@@ -22,5 +26,5 @@ setup(
     License="MIT",
     classifiers=classifiers,
     packages=find_packages(),
-    install_requires=["Flask", "mysql-connector-python"],
+    install_requires=requirements,
 )

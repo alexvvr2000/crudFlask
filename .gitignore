@@ -1,5 +1,6 @@
 .python-version
 pyrightconfig.json
+*.ini
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
