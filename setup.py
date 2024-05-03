@@ -22,5 +22,5 @@ setup(
     License="MIT",
     classifiers=classifiers,
     packages=find_packages(),
-    install_requires=["Flask", "mysql-connector-python"],
+    install_requires=["Flask", "mariadb", "setuptools"],
 )
