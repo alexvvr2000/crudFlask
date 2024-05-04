@@ -1,6 +1,28 @@
 from flask import Flask, render_template
+from mariadb import connect, Connection
 
 app: Flask = Flask(__name__)
+
+
+def obtenerConexion() -> Connection:
+    from configparser import ConfigParser
+    from typing import Dict
+
+    lectorDatosConexion: ConfigParser = ConfigParser()
+    conexion: Connection
+    try:
+        lectorDatosConexion.read("conn.ini")
+        datosConexion: Dict[str, str] = lectorDatosConexion["connection"]
+        conexion = connect(
+            user=datosConexion["user"],
+            password=datosConexion["password"],
+            host=datosConexion["host"],
+            database=datosConexion["database"],
+            port=int(datosConexion["port"]),
+        )
+        return conexion
+    except Exception as e:
+        print(e)
 
 
 @app.get("/")
