@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, g
 from mariadb import connect, Connection
 
 app: Flask = Flask(__name__)
@@ -8,21 +8,25 @@ def obtenerConexion() -> Connection:
     from configparser import ConfigParser
     from typing import Dict
 
-    lectorDatosConexion: ConfigParser = ConfigParser()
-    conexion: Connection
-    try:
+    if "db" not in g:
+        lectorDatosConexion: ConfigParser = ConfigParser()
         lectorDatosConexion.read("conn.ini")
         datosConexion: Dict[str, str] = lectorDatosConexion["connection"]
-        conexion = connect(
+        g.db = connect(
             user=datosConexion["user"],
             password=datosConexion["password"],
             host=datosConexion["host"],
             database=datosConexion["database"],
             port=int(datosConexion["port"]),
         )
-        return conexion
-    except Exception as e:
-        print(e)
+    return g.db
+
+
+@app.teardown_appcontext
+def cerrarConexionBase() -> None:
+    db = g.pop("db", None)
+    if db is not None:
+        db.close()
 
 
 @app.get("/")
