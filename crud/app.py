@@ -1,4 +1,4 @@
-from flask import Flask, render_template, g, redirect, url_for
+from flask import Flask, render_template, g, request, redirect, url_for
 from mariadb import Cursor, connect, Connection
 from typing import Dict
 
@@ -48,14 +48,12 @@ def index():
     return render_template("mostrar.jinja", carrito=carritoBase)
 
 
-@app.get("/agregar")
+@app.route("/agregar", methods=["GET", "POST"])
 def agregarCarroForm():
-    return render_template("agregar.jinja")
-
-
-@app.post("/agregar")
-def agregarCarroBase():
-    pass
+    if request.method == "GET":
+        return render_template("agregar.jinja")
+    elif request.method == "POST":
+        return redirect(url_for("index"))
 
 
 @app.delete("/borrar")
