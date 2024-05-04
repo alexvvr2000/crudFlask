@@ -1,12 +1,12 @@
 from flask import Flask, render_template, g
-from mariadb import connect, Connection
+from mariadb import Cursor, connect, Connection
+from typing import Dict
 
 app: Flask = Flask(__name__)
 
 
 def obtenerConexion() -> Connection:
     from configparser import ConfigParser
-    from typing import Dict
 
     if "db" not in g:
         lectorDatosConexion: ConfigParser = ConfigParser()
@@ -23,7 +23,7 @@ def obtenerConexion() -> Connection:
 
 
 @app.teardown_appcontext
-def cerrarConexionBase() -> None:
+def cerrarConexionBase(error) -> None:
     db = g.pop("db", None)
     if db is not None:
         db.close()
@@ -31,7 +31,21 @@ def cerrarConexionBase() -> None:
 
 @app.get("/")
 def index():
-    return render_template("mostrar.jinja", carrito=[])
+    carritoBase: list[Dict[str, str]] = []
+    conexionBase: Connection = obtenerConexion()
+    cursorBase: Cursor = conexionBase.cursor()
+    cursorBase.execute("select claveProducto, descripcion, precio from Producto")
+    # iterar y agregar diccionario con los datos regresados
+    for producto in cursorBase:
+        claveProducto, descripcion, precio = producto
+        carritoBase.append(
+            {
+                "claveProducto": claveProducto,
+                "descripcion": descripcion,
+                "precio": precio,
+            }
+        )
+    return render_template("mostrar.jinja", carrito=carritoBase)
 
 
 @app.get("/agregar")
