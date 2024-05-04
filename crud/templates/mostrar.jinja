@@ -31,7 +31,9 @@
     </tr>
     {% endfor %}
 </table>
-<button>Agregar elemento</button>
+<button>
+    <a href="{{ url_for('agregarCarroForm') }}">Agregar elemento</a>
+</button>
 {% else %}
 <div>
     No hay elementos en el carrito, <span>

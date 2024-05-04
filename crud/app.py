@@ -1,4 +1,4 @@
-from flask import Flask, render_template, g
+from flask import Flask, render_template, g, redirect, url_for
 from mariadb import Cursor, connect, Connection
 from typing import Dict
 
@@ -50,22 +50,22 @@ def index():
 
 @app.get("/agregar")
 def agregarCarroForm():
-    return "agregar"
+    return render_template("agregar.jinja")
 
 
 @app.post("/agregar")
 def agregarCarroBase():
-    return "agregar"
+    pass
 
 
 @app.delete("/borrar")
 def borrarCarroBase():
-    return "borrar"
+    pass
 
 
 @app.get("/actualizar")
 def actualizarCarroForm():
-    return "actualizar"
+    return render_template("actualizar.jinja")
 
 
 @app.put("/actualizar")
