@@ -56,7 +56,7 @@ def agregarCarroForm():
         return redirect(url_for("index"))
 
 
-@app.delete("/borrar")
+@app.route("/borrar", methods=["DELETE"])
 def borrarCarroBase():
     pass
 
