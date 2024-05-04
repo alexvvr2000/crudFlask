@@ -1,9 +1,15 @@
 {% extends "index.jinja" %}
 
-{% block titulo %} Agregar datos {% endblock titulo %}
+{% block titulo %} Agregar campo {% endblock titulo %}
 
 {% block cuerpo %}
 
-<h1>Agregar datos</h1>
+<form action="" method="post">
+    <label for="inputDescripcion">Descripcion</label>
+    <input type="text" id="inputDescripcion"> <br>
+    <label for="inputPrecio">Precio</label>
+    <input inputmode="numeric" id="inputPrecio"> <br>
+    <input type="submit" id="inputAgregarBase" name="agregarBase" value="agregar">
+</form>
 
 {% endblock cuerpo %}
