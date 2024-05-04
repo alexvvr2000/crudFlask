@@ -17,12 +17,16 @@
     </tr>
     {% for item in carrito %}
     <tr>
-        <td>{{ item.id }}</td>
-        <td>{{ item.nombre }}</td>
+        <td>{{ item.claveProducto }}</td>
+        <td>{{ item.descripcion }}</td>
         <td>{{ '$' ~ item.precio }}</td>
         <td>
-            <button>Eliminar</button>
-            <button>Actualizar</button>
+            <button>
+                <a href="{{ url_for('actualizarCarroForm') }}">Actualizar</a>
+            </button>
+            <button>
+                <a href="{{ url_for('borrarCarroBase') }}">Eliminar</a>
+            </button>
         </td>
     </tr>
     {% endfor %}
