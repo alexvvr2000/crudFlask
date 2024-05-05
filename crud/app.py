@@ -71,9 +71,31 @@ def borrarCarroBase():
     pass
 
 
-@app.route("/actualizar", methods=["PUT", "GET"])
-def actualizarCarroForm():
+@app.route("/actualizar/<int:claveProducto>", methods=["PUT", "GET"])
+def actualizarCarroForm(claveProducto: int):
+    conexionBase: Connection = obtenerConexion()
+    cursorBase: Cursor = conexionBase.cursor()
     if request.method == "GET":
-        return render_template("actualizar.jinja")
+        cursorBase.execute(
+            "SELECT descripcion, precio FROM Producto WHERE claveProducto=?",
+            (claveProducto,),
+        )
+        descripcion, precio = cursorBase.fetchone()
+        datosTemplate: Dict[str, str] = {
+            "claveProducto": claveProducto,
+            "descripcion": descripcion,
+            "precio": precio,
+        }
+        return render_template("actualizar.jinja", campo=datosTemplate)
     elif request.method == "PUT":
-        return redirect(url_for("index"))
+        query: str = "UPDATE Producto SET descripcion=?,precio=? WHERE claveProducto=?"
+        cursorBase.execute(
+            query,
+            (
+                escape(request.form["descripcion"]),
+                escape(request.form["precio"]),
+                claveProducto,
+            ),
+        )
+        conexionBase.commit()
+        return "Datos actualizados en base"
