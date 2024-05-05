@@ -66,9 +66,15 @@ def agregarCarroForm():
         return redirect(url_for("index"))
 
 
-@app.route("/borrar", methods=["DELETE"])
-def borrarCarroBase():
-    pass
+@app.route("/borrar/<int:claveProducto>", methods=["DELETE"])
+def borrarCarroBase(claveProducto: int):
+    print(type(claveProducto))
+    conexionBase: Connection = obtenerConexion()
+    query: str = "DELETE FROM Producto WHERE claveProducto=?"
+    cursor: Cursor = conexionBase.cursor()
+    cursor.execute(query, (escape(claveProducto),))
+    conexionBase.commit()
+    return f"Campo {escape(claveProducto)} borrado de la base"
 
 
 @app.route("/actualizar/<int:claveProducto>", methods=["PUT", "GET"])
