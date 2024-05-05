@@ -1,6 +1,7 @@
 from flask import Flask, render_template, g, request, redirect, url_for
 from mariadb import Cursor, connect, Connection
-from typing import Dict
+from typing import Dict, Tuple
+from markupsafe import escape
 
 app: Flask = Flask(__name__)
 
@@ -53,6 +54,15 @@ def agregarCarroForm():
     if request.method == "GET":
         return render_template("agregar.jinja")
     elif request.method == "POST":
+        conexionBase: Connection = obtenerConexion()
+        cursorBase: Cursor = conexionBase.cursor()
+        query = "INSERT INTO Producto (descripcion, precio) values (?,?)"
+        datos: Tuple[str, str] = (
+            escape(request.form["descripcion"]),
+            escape(request.form["precio"]),
+        )
+        cursorBase.execute(query, datos)
+        conexionBase.commit()
         return redirect(url_for("index"))
 
 
