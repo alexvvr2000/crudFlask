@@ -21,19 +21,39 @@
         <td>{{ item.descripcion }}</td>
         <td>{{ '$' ~ item.precio }}</td>
         <td>
-            <button>
-                <a href="{{ url_for('actualizarCarroForm', claveProducto=item.claveProducto) }}">Actualizar</a>
+            <button id="botonActualizar{{ item.claveProducto }}">
+                Actualizar
             </button>
-            <button>
-                <a href="{{ url_for('borrarCarroBase') }}">Eliminar</a>
+            <button id="botonBorrar{{ item.claveProducto }}">
+                Eliminar
             </button>
         </td>
     </tr>
     {% endfor %}
 </table>
-<button>
-    <a href="{{ url_for('agregarCarroForm') }}">Agregar elemento</a>
+<button id="botonAgregarElemento">
+    Agregar elemento
 </button>
+<script>
+    {% for item in carrito %}
+    document.getElementById("botonActualizar{{ item.claveProducto }}").addEventListener("click", () => {
+        window.location.href = "{{ url_for('actualizarCarroForm', claveProducto=item.claveProducto) }}"
+    })
+    document.getElementById("botonBorrar{{ item.claveProducto }}").addEventListener("click", () => {
+        const url = "{{ url_for('borrarCarroBase', claveProducto=item.claveProducto) }}";
+        fetch(url, {
+            method: "DELETE"
+        }).then(response => {
+            if (response.ok) {
+                window.location.href = "{{ url_for('index') }}";
+            }
+        });
+    });
+    {% endfor %}
+    document.getElementById("botonAgregarElemento").addEventListener("click", () => {
+        window.location.href = "{{ url_for('agregarCarroForm') }}"
+    })
+</script>
 {% else %}
 <div>
     No hay elementos en el carrito, <span>
