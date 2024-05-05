@@ -22,7 +22,7 @@
         <td>{{ '$' ~ item.precio }}</td>
         <td>
             <button>
-                <a href="{{ url_for('actualizarCarroForm') }}">Actualizar</a>
+                <a href="{{ url_for('actualizarCarroForm', claveProducto=item.claveProducto) }}">Actualizar</a>
             </button>
             <button>
                 <a href="{{ url_for('borrarCarroBase') }}">Eliminar</a>
