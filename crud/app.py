@@ -61,11 +61,9 @@ def borrarCarroBase():
     pass
 
 
-@app.get("/actualizar")
+@app.route("/actualizar", methods=["PUT", "GET"])
 def actualizarCarroForm():
-    return render_template("actualizar.jinja")
-
-
-@app.put("/actualizar")
-def actualizarCarroBase():
-    pass
+    if request.method == "GET":
+        return render_template("actualizar.jinja")
+    elif request.method == "PUT":
+        return redirect(url_for("index"))
