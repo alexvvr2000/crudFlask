@@ -1,7 +1,44 @@
 {% extends "index.jinja" %}
 
-{% block titulo %} Actualizar datos {% endblock titulo %}
+{% block titulo %} Actualizar id {{ campo.claveProducto }} {% endblock titulo %}
 
 {% block cuerpo %}
-<h1>Actualizar</h1>
+
+<form id="formActualizarProducto">
+    <label for="inputDescripcion">Descripcion</label>
+    <input type="text" id="inputDescripcion" name="descripcion" value="{{ campo.descripcion }}"> <br>
+    <label for="inputPrecio">Precio</label>
+    <input inputmode="numeric" id="inputPrecio" name="precio" value="{{ campo.precio }}"> <br>
+    <input type="submit" id="inputAgregarBase" name="agregarBase" value="agregar">
+</form>
+
+<script>
+    // que se debe hacer cuando se hace click
+    document.getElementById("formActualizarProducto").addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        // creando datos que puedan ser mandados por request
+        const formData = new FormData(this);
+
+        const url = "{{ url_for('actualizarCarroForm', claveProducto=campo.claveProducto) }}";
+
+        // manda los datos a la api
+        fetch(url, {
+            method: "PUT",
+            body: formData
+        })
+            .then(response => {
+                if (response.ok) {
+                    console.log("Actualización exitosa");
+                    window.location.href = "{{ url_for('index') }}"
+                } else {
+                    console.error("Error al actualizar:", response.statusText);
+                }
+            })
+            .catch(error => {
+                console.error("Error de red:", error);
+            });
+    });
+</script>
+
 {% endblock cuerpo %}
